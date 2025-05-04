@@ -4,16 +4,10 @@ import com.kce.cmp.dto.JwtAuthResponse;
 import com.kce.cmp.dto.RefreshTokenRequest;
 import com.kce.cmp.dto.SignInRequest;
 import com.kce.cmp.dto.SignUpRequest;
-import com.kce.cmp.model.user.User;
 import com.kce.cmp.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.net.http.HttpResponse;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -24,7 +18,7 @@ public class AuthenticationController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<User> signup(@RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<JwtAuthResponse> signup(@RequestBody SignUpRequest signUpRequest) {
         return ResponseEntity.ok(authenticationService.signUp(signUpRequest));
     }
 
@@ -36,5 +30,19 @@ public class AuthenticationController {
     @PostMapping("/refresh")
     public ResponseEntity<JwtAuthResponse> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest) {
         return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestBody String token) {
+        authenticationService.logout(token);
+        return ResponseEntity.ok("Logout successful");
+    }
+
+    @GetMapping
+    public ResponseEntity<JwtAuthResponse> currentUser(@RequestHeader("Authorization") String token) {
+        System.out.println("getting current user");
+        String jwtToken = token.substring(7);
+        JwtAuthResponse jwtAuthResponse = authenticationService.currentUser(jwtToken);
+        return ResponseEntity.ok(jwtAuthResponse);
     }
 }

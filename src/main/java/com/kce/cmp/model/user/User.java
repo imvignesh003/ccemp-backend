@@ -1,6 +1,7 @@
 package com.kce.cmp.model.user;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -27,6 +28,9 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private Role role;
+    private String profileImageUrl;
+    private Date createdAt;
+    private Date updatedAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
