@@ -1,4 +1,4 @@
-package com.kce.cmp.dto;
+package com.kce.cmp.dto.response;
 
 import com.kce.cmp.model.user.User;
 import lombok.Data;

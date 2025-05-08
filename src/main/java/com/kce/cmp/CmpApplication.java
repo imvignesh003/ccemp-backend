@@ -9,6 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.List;
+
 
 @SpringBootApplication
 public class CmpApplication implements CommandLineRunner {
@@ -23,7 +25,7 @@ public class CmpApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String ...args){
-		User adminAccount = userRepository.findByRole(Role.ADMIN).orElse(null);
+		List<User> adminAccount = userRepository.findByRole(Role.ADMIN).orElse(null);
 
 		if(adminAccount == null) {
 			User user = new User();
@@ -33,6 +35,19 @@ public class CmpApplication implements CommandLineRunner {
 			user.setPassword(new BCryptPasswordEncoder().encode("admin123"));
 			userRepository.save(user);
 		}
+
+		List<User> leadAccount = userRepository.findByRole(Role.LEAD).orElse(null);
+
+		if(leadAccount == null) {
+			User user = new User();
+			user.setName("Lead");
+			user.setEmail("lead@gmail.com");
+			user.setRole(Role.LEAD);
+			user.setPassword(new BCryptPasswordEncoder().encode("lead123"));
+			userRepository.save(user);
+		}
+
+
 	}
 
 }

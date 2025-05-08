@@ -1,9 +1,7 @@
 package com.kce.cmp.controller;
 
-import com.kce.cmp.dto.JwtAuthResponse;
-import com.kce.cmp.dto.RefreshTokenRequest;
-import com.kce.cmp.dto.SignInRequest;
-import com.kce.cmp.dto.SignUpRequest;
+import com.kce.cmp.dto.request.*;
+import com.kce.cmp.dto.response.JwtAuthResponse;
 import com.kce.cmp.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +31,22 @@ public class AuthenticationController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@RequestBody String token) {
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String token) {
         authenticationService.logout(token);
         return ResponseEntity.ok("Logout successful");
+    }
+
+    @PostMapping("/updatePassword")
+    public ResponseEntity<JwtAuthResponse> updatePassword(@RequestHeader("Authorization") String token, @RequestBody UpdatePasswordRequest updatePasswordRequest) {
+        System.out.println("updating user: "+updatePasswordRequest.toString());
+        String jwtToken = token.substring(7);
+        return ResponseEntity.ok(authenticationService.updatePassword(jwtToken, updatePasswordRequest));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Boolean> updateUser(@PathVariable Long id, @RequestBody ProfileUpdateRequest profileUpdateRequest) {
+        System.out.println("updating user"+profileUpdateRequest.getContact());
+        return ResponseEntity.ok(authenticationService.updateUser(id, profileUpdateRequest.getName().replace("\"",""), profileUpdateRequest.getContact().replace("\"","")));
     }
 
     @GetMapping

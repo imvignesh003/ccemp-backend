@@ -1,9 +1,10 @@
 package com.kce.cmp.service.impl;
 
-import com.kce.cmp.dto.JwtAuthResponse;
-import com.kce.cmp.dto.RefreshTokenRequest;
-import com.kce.cmp.dto.SignInRequest;
-import com.kce.cmp.dto.SignUpRequest;
+import com.kce.cmp.dto.request.RefreshTokenRequest;
+import com.kce.cmp.dto.request.SignInRequest;
+import com.kce.cmp.dto.request.SignUpRequest;
+import com.kce.cmp.dto.request.UpdatePasswordRequest;
+import com.kce.cmp.dto.response.JwtAuthResponse;
 import com.kce.cmp.model.auth.RefreshToken;
 import com.kce.cmp.model.user.Role;
 import com.kce.cmp.model.user.User;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 
 @Service
@@ -42,6 +44,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             user.setEmail(signUpRequest.getEmail());
             user.setRole(Role.STUDENT);
             user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+            user.setCreatedAt(LocalDate.now());
+            user.setUpdatedAt(LocalDate.now());
             userRepository.save(user);
             String jwtToken = jwtService.generateToken(user);
             String refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
@@ -88,8 +92,34 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public JwtAuthResponse currentUser(@NonNull String token) {
+        System.out.println("getting current user+ "+token);
         String email = jwtService.extractUsername(token);
         User user = userRepository.findByEmail(email).orElseThrow();
+        String refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+        jwtAuthResponse.setToken(token);
+        jwtAuthResponse.setRefreshToken(refreshToken);
+        jwtAuthResponse.setUser(user);
+        return jwtAuthResponse;
+    }
+
+    @Transactional
+    @Override
+    public JwtAuthResponse updatePassword(@NonNull String token, @NonNull UpdatePasswordRequest updatePasswordRequest) {
+        System.out.println("updating password"+token);
+        String email = jwtService.extractUsername(token);
+        User user = userRepository.findByEmail(email).orElse(null);
+        if(user == null) {
+            return null;
+        }
+        System.out.println(user.toString());
+        String oldPassword = passwordEncoder.encode(updatePasswordRequest.getOldPassword());
+        if(user.getPassword().equals(oldPassword)) {
+            throw new IllegalArgumentException("Old password is incorrect");
+        }
+        user.setPassword(passwordEncoder.encode(updatePasswordRequest.getNewPassword()));
+        user.setUpdatedAt(LocalDate.now());
+        userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
@@ -97,6 +127,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         jwtAuthResponse.setRefreshToken(refreshToken);
         jwtAuthResponse.setUser(user);
         return jwtAuthResponse;
+    }
+
+    @Transactional
+    @Override
+    public boolean updateUser(@NonNull Long id, @NonNull String name, @NonNull String contactNumber) {
+        User user = userRepository.findById(id).orElse(null);
+        if(user == null) {
+            return false;
+        }
+        user.setName(name);
+        user.setContact(contactNumber);
+        user.setUpdatedAt(LocalDate.now());
+        userRepository.save(user);
+        return true;
     }
 
     @Transactional

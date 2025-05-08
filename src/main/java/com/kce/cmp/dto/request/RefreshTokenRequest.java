@@ -1,4 +1,4 @@
-package com.kce.cmp.dto;
+package com.kce.cmp.dto.request;
 
 import lombok.Data;
 
