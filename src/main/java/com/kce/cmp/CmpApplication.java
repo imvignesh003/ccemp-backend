@@ -7,12 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 
 
 @SpringBootApplication
+@EnableJdbcRepositories(basePackages = "com.kce.cmp.repository")
+@EntityScan(basePackages = "com.kce.cmp.model")
 public class CmpApplication implements CommandLineRunner {
 
 	@Autowired

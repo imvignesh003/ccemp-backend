@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 public class Profile {
-    private Integer id;
+    private Long id;
     private String name;
     private String email;
     private String contact;

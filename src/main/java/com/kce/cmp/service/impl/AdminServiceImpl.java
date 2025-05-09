@@ -41,4 +41,14 @@ public class AdminServiceImpl implements AdminService {
         userRepository.save(user);
         return true;
     }
+
+
+    @Override
+    public Profile getProfile(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return null;
+        }
+        return UserMapper.toProfile(user);
+    }
 }

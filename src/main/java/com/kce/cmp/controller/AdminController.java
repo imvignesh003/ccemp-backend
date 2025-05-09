@@ -36,6 +36,8 @@ public class AdminController {
         return ResponseEntity.ok(result);
     }
 
+
+
     @GetMapping("/profile/leads")
     public ResponseEntity<List<Profile>> getLeads() {
         System.out.println("Inside AdminController");

@@ -9,4 +9,6 @@ public interface AdminService {
     List<Profile> getAllProfiles();
 
     boolean updateRole(Long id, Role role);
+
+    Profile getProfile(Long id);
 }
