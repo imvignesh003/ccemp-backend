@@ -26,4 +26,6 @@ public interface ClubService {
     boolean approveMember(Long clubId, Long userId);
 
     boolean rejectMember(Long clubId, Long userId);
+
+    String getClubJoiningStatus(Long clubId, Long userId);
 }

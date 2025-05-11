@@ -152,4 +152,15 @@ public class ClubServiceImpl implements ClubService {
     }
 
 
+    @Override
+    public String getClubJoiningStatus(Long clubId, Long userId) {
+        System.out.println("Getting joining status for user " + userId + " in club: " + clubId);
+        ClubMember clubMember = memberRepository.findByClubIdAndUserId(clubId, userId);
+        if (clubMember == null) {
+            return "NOT_A_MEMBER";
+        }
+        return clubMember.getStatus().name();
+    }
+
+
 }

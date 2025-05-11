@@ -41,6 +41,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/v1/lead/**").hasAnyAuthority(Role.LEAD.name())
                         .requestMatchers("/api/v1/admin/**").hasAuthority(Role.ADMIN.name())
                         .requestMatchers("/api/v1/profile/**").hasAnyAuthority(Role.STUDENT.name(), Role.LEAD.name(), Role.ADMIN.name())
+                        .requestMatchers("/api/v1/events/**").hasAnyAuthority(Role.LEAD.name(), Role.ADMIN.name(), Role.STUDENT.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

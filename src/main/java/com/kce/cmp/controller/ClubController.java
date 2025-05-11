@@ -89,4 +89,10 @@ import java.util.List;
         boolean success = clubService.rejectMember(id, joinRequest.getUserId());
         return ResponseEntity.ok(success);
     }
+    @GetMapping("/{id}/status/{userId}")
+    public ResponseEntity<String> getClubStatus(@PathVariable Long id, @PathVariable Long userId) {
+        System.out.println("Getting club status for user " + userId + " in club: " + id);
+        String status = clubService.getClubJoiningStatus(id, userId);
+        return ResponseEntity.ok(status);
+    }
 }
