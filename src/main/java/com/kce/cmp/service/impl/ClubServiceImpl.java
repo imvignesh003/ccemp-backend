@@ -162,5 +162,25 @@ public class ClubServiceImpl implements ClubService {
         return clubMember.getStatus().name();
     }
 
+    @Override
+    public List<ClubDto> getClubsByUserId(Long userId) {
+        System.out.println("Getting clubs for user: " + userId);
+        List<ClubMember> clubMembers = memberRepository.findByUserId(userId);
+        List<ClubDto> clubs = new ArrayList<>();
+        for (ClubMember clubMember : clubMembers) {
+            clubs.add(ClubMapper.map(clubMember.getClub()));
+        }
+        return clubs;
+    }
+
+    @Override
+    public ClubDto getClubById(Long id) {
+        System.out.println("Getting club by ID: " + id);
+        Club club = clubRepository.findById(id).orElse(null);
+        if (club == null) {
+            return null;
+        }
+        return ClubMapper.map(club);
+    }
 
 }

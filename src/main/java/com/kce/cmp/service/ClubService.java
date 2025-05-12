@@ -28,4 +28,8 @@ public interface ClubService {
     boolean rejectMember(Long clubId, Long userId);
 
     String getClubJoiningStatus(Long clubId, Long userId);
+
+    List<ClubDto> getClubsByUserId(Long userId);
+
+    ClubDto getClubById(Long id);
 }

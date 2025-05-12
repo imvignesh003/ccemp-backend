@@ -34,10 +34,10 @@ import java.util.List;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<ClubDto>> getMyCLubs(@PathVariable Long id){
-        System.out.println("Getting club of leader: "+id);
-        List<ClubDto> myClubs = clubService.getMyClubs(id);
-        return  ResponseEntity.ok(myClubs);
+    public ResponseEntity<ClubDto> getClubById(@PathVariable Long id) {
+        System.out.println("Fetching club with ID: " + id);
+        ClubDto club = clubService.getClubById(id);
+        return ResponseEntity.ok(club);
     }
 
 
@@ -66,6 +66,7 @@ import java.util.List;
     public ResponseEntity<List<MemberDto>> getClubMembers(@PathVariable Long id) {
         System.out.println("Getting members for club: " + id);
         List<MemberDto> members = clubService.getClubMembers(id);
+        System.out.println(members);
         return ResponseEntity.ok(members);
     }
 
@@ -94,5 +95,19 @@ import java.util.List;
         System.out.println("Getting club status for user " + userId + " in club: " + id);
         String status = clubService.getClubJoiningStatus(id, userId);
         return ResponseEntity.ok(status);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<ClubDto>> getClubsByUserId(@PathVariable Long userId) {
+        System.out.println("Getting clubs for user: " + userId);
+        List<ClubDto> clubs = clubService.getClubsByUserId(userId);
+        return ResponseEntity.ok(clubs);
+    }
+
+    @GetMapping("/lead/{leadId}")
+    public ResponseEntity<List<ClubDto>> getMyCLubs(@PathVariable Long leadId){
+        System.out.println("Getting club of leader: "+leadId);
+        List<ClubDto> myClubs = clubService.getMyClubs(leadId);
+        return  ResponseEntity.ok(myClubs);
     }
 }

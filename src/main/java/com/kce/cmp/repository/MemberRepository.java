@@ -13,4 +13,5 @@ public interface MemberRepository extends JpaRepository<ClubMember, Long> {
     int countByClubId(Long clubId);
     List<ClubMember> findByClubId(Long clubId);
     ClubMember findByClubIdAndUserId(Long clubId, Long userId);
+    List<ClubMember> findByUserId(Long userId);
 }
