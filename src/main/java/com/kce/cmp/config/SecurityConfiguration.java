@@ -36,7 +36,13 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/auth/**").permitAll()
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(
+                                "/api/v1/auth/**",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
                         .requestMatchers("/api/v1/student/**").hasAnyAuthority(Role.STUDENT.name())
                         .requestMatchers("/api/v1/lead/**").hasAnyAuthority(Role.LEAD.name())
                         .requestMatchers("/api/v1/admin/**").hasAuthority(Role.ADMIN.name())

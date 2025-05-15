@@ -1,5 +1,6 @@
 package com.kce.cmp.service.impl;
 
+import com.kce.cmp.dto.Mapper.UserMapper;
 import com.kce.cmp.dto.request.RefreshTokenRequest;
 import com.kce.cmp.dto.request.SignInRequest;
 import com.kce.cmp.dto.request.SignUpRequest;
@@ -53,7 +54,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
             jwtAuthResponse.setToken(jwtToken);
             jwtAuthResponse.setRefreshToken(refreshToken);
-            jwtAuthResponse.setUser(user);
+            jwtAuthResponse.setProfile(UserMapper.toProfile(user));
             return jwtAuthResponse;
         }
     }
@@ -68,7 +69,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setToken(jwtToken);
         jwtAuthResponse.setRefreshToken(refreshToken);
-        jwtAuthResponse.setUser(user);
+        jwtAuthResponse.setProfile(UserMapper.toProfile(user));
         return jwtAuthResponse;
     }
 
@@ -99,7 +100,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setToken(token);
         jwtAuthResponse.setRefreshToken(refreshToken);
-        jwtAuthResponse.setUser(user);
+        jwtAuthResponse.setProfile(UserMapper.toProfile(user));
         return jwtAuthResponse;
     }
 
@@ -125,7 +126,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setToken(jwtToken);
         jwtAuthResponse.setRefreshToken(refreshToken);
-        jwtAuthResponse.setUser(user);
+        jwtAuthResponse.setProfile(UserMapper.toProfile(user));
         return jwtAuthResponse;
     }
 
