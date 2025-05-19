@@ -41,6 +41,24 @@ public class ClubServiceImpl implements ClubService {
         return res;
     }
 
+    @Override
+    public int getPendingMembersClubsCount() {
+        System.out.println("Getting pending members clubs count");
+        return (int) memberRepository.countByStatus(MemberStatus.PENDING);
+    }
+
+    @Override
+    public int getMyPendingclubs(Long userId) {
+        System.out.println("Getting my pending clubs count");
+        return (int) memberRepository.countByStatusAndUserId(MemberStatus.PENDING, userId);
+    }
+
+    @Override
+    public int getClubsCount() {
+        System.out.println("Getting clubs count");
+        return (int) clubRepository.count();
+    }
+
 
     @Override
     public ClubDto createClub(@NonNull CreateClubRequest createClubRequest) {

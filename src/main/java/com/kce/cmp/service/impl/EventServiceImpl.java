@@ -55,6 +55,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public int getEventCount() {
+        return (int) eventRepository.count();
+    }
+
+    @Override
     public List<EventDto> getAllEvents(){
         List<Event> events = eventRepository.findAll();
         return events.stream()
@@ -150,6 +155,23 @@ public class EventServiceImpl implements EventService {
             return true;
         }
         return false;
+    }
+
+
+    @Override
+    public List<EventDto> getEventsByUserId(Long userId) {
+        List<EventRegistration> registrations = registrationRepository.findByUserId(userId);
+        return registrations.stream()
+                .map(registration -> EventDto.builder()
+                        .id(registration.getEvent().getId())
+                        .title(registration.getEvent().getTitle())
+                        .description(registration.getEvent().getDescription())
+                        .location(registration.getEvent().getLocation())
+                        .dateTime(registration.getEvent().getDateTime())
+                        .club(ClubMapper.map(registration.getEvent().getClub()))
+                        .maxParticipants(registration.getEvent().getMaxParticipants())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
 

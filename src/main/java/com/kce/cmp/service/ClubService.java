@@ -11,6 +11,12 @@ import java.util.List;
 public interface ClubService {
     List<ClubDto> getAllClubs();
 
+    int getPendingMembersClubsCount();
+
+    int getMyPendingclubs(Long userId);
+
+    int getClubsCount();
+
     ClubDto createClub(@NonNull CreateClubRequest createClubRequest);
 
     List<ClubDto> getMyClubs(Long id);

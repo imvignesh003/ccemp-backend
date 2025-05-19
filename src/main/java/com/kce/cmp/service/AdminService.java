@@ -8,6 +8,8 @@ import java.util.List;
 public interface AdminService {
     List<Profile> getAllProfiles();
 
+    int getProfilesCount();
+
     boolean updateRole(Long id, Role role);
 
     Profile getProfile(Long id);

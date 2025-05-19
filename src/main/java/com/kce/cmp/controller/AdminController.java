@@ -29,6 +29,13 @@ public class AdminController {
         List<Profile> profiles = adminService.getAllProfiles();
         return ResponseEntity.ok(profiles);
     }
+
+    @GetMapping("/profiles/count")
+    public ResponseEntity<Integer> getProfilesCount() {
+        System.out.println("Inside AdminController");
+        Integer count = adminService.getProfilesCount();
+        return ResponseEntity.ok(count);
+    }
     @PutMapping("/profile/{id}")
     public ResponseEntity<Boolean> upddateRole(@PathVariable Long id, @RequestBody RoleRequest roleRequest) {
         System.out.println("Inside Update role"+ id + ":"+roleRequest);

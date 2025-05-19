@@ -28,6 +28,11 @@ public class AdminServiceImpl implements AdminService {
         return profiles;
     }
 
+    @Override
+    public int getProfilesCount() {
+        return (int) userRepository.count();
+    }
+
     @Transactional
     @Override
     public boolean updateRole(Long id, Role role) {

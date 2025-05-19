@@ -26,6 +26,20 @@ import java.util.List;
         return ResponseEntity.ok(clubs);
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Integer> getClubsCount() {
+        System.out.println("Getting clubs count");
+        Integer count = clubService.getClubsCount();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/pending/count")
+    public ResponseEntity<Integer> getPendingMembersClubsCount() {
+        System.out.println("Getting pending members clubs count");
+        Integer count = clubService.getPendingMembersClubsCount();
+        return ResponseEntity.ok(count);
+    }
+
     @PostMapping
     public ResponseEntity<ClubDto> createClub(@RequestBody CreateClubRequest createClubRequest) {
         System.out.println("Creating club: " + createClubRequest);

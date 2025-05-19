@@ -23,6 +23,13 @@ public class EventController {
         return ResponseEntity.ok(eventService.createEvent(createEventRequest));
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Integer> getEventCount() {
+        System.out.println("Fetching event count");
+        int count = eventService.getEventCount();
+        return ResponseEntity.ok(count);
+    }
+
     @GetMapping("/{eventId}")
     public ResponseEntity<EventDto> getEventById(@PathVariable Long eventId) {
         System.out.println("Fetching event with ID: " + eventId);
@@ -78,6 +85,13 @@ public class EventController {
         List<EventRegistrationResponse> registrations = eventService.getEventRegistrations(eventId);
         int count = registrations.size();
         return ResponseEntity.ok(count);
+    }
+
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<EventDto>> getEventsByUserId(@PathVariable Long userId) {
+        System.out.println("Fetching events for user ID: " + userId);
+        return ResponseEntity.ok(eventService.getEventsByUserId(userId));
     }
 
 }

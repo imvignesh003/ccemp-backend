@@ -9,6 +9,8 @@ import java.util.List;
 public interface EventService {
     EventDto createEvent(CreateEventRequest createEventRequest);
 
+    int getEventCount();
+
     List<EventDto> getAllEvents();
 
     EventDto getEventById(Long eventId);
@@ -22,4 +24,6 @@ public interface EventService {
     boolean registerForEvent(Long eventId, Long userId);
 
     boolean unRegisterForEvent(Long eventId, Long userId);
+
+    List<EventDto> getEventsByUserId(Long userId);
 }
